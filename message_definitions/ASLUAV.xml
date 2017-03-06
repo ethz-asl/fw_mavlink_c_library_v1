@@ -198,5 +198,17 @@
       <field type="float" name="pwr_brd_servo_4_amp">Power board servo1 current sensor</field>
       <field type="float" name="pwr_brd_aux_amp">Power board aux current sensor</field>
     </message>
+    <message id="214" name="SENS_4H_VECTOR_PROBE">
+      <description>Raw data of the 4 hole vector probe.</description>
+      <field type="uint64_t" name="timestamp">Timestamp</field>
+      <field type="float" name="raw_pressure1">Raw pressure on port 1</field>
+      <field type="float" name="raw_pressure2">Raw pressure on port 2</field>
+      <field type="float" name="raw_pressure3">Raw pressure on port 3</field>
+      <field type="float" name="raw_pressure4">Raw pressure on port 4</field>
+      <field type="float" name="alpha">Angle of attack</field>
+      <field type="float" name="beta">Sideslip angle</field>
+      <field type="float" name="u">u</field>
+      <field type="float" name="pt">pt</field>
+    </message>
   </messages>
 </mavlink>
