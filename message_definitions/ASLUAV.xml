@@ -205,10 +205,14 @@
       <field type="float" name="raw_pressure2">Raw pressure on port 2</field>
       <field type="float" name="raw_pressure3">Raw pressure on port 3</field>
       <field type="float" name="raw_pressure4">Raw pressure on port 4</field>
+	  <field type="float" name="filtered_pressure1">filtered pressure on port 1</field>
+	  <field type="float" name="filtered_pressure2">filtered pressure on port 2</field>
+	  <field type="float" name="filtered_pressure3">filtered pressure on port 3</field>
+	  <field type="float" name="filtered_pressure4">filtered pressure on port 4</field>
       <field type="float" name="alpha">Angle of attack</field>
       <field type="float" name="beta">Sideslip angle</field>
-      <field type="float" name="u">u</field>
-      <field type="float" name="pt">pt</field>
+      <field type="float" name="u">airspeed</field>
+      <field type="float" name="pt">total pressure</field>
     </message>
   </messages>
 </mavlink>
