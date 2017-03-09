@@ -214,5 +214,11 @@
       <field type="float" name="u">airspeed</field>
       <field type="float" name="pt">total pressure</field>
     </message>
+    <message id="215" name="V4HP_CALIB_REFERENCE">
+      <description>Orientation of the robot arm.</description>
+      <field type="uint64_t" name="timestamp">Timestamp</field>
+      <field type="int16_t" name="alpha">alpha (degrees*10)</field>
+      <field type="int16_t" name="beta">beta (degrees*10)</field>
+    </message>
   </messages>
 </mavlink>
