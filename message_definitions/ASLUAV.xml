@@ -198,5 +198,34 @@
       <field type="float" name="pwr_brd_servo_4_amp">Power board servo1 current sensor</field>
       <field type="float" name="pwr_brd_aux_amp">Power board aux current sensor</field>
     </message>
+    <message id="213" name="WIND_SENSOR">
+        <description>Wind sensor data</description>
+        <field type="float" name="direction"> Wind Direction</field>
+        <field type="float" name="avg_mag"> Average wind measured</field>
+        <field type="float" name="max_mag"> Maximum wind measured</field>
+        <field type="float" name="std_dev"> Standard Deviation of measured wind magnitude</field>
+    </message>
+    <message id="214" name="SENS_4H_VECTOR_PROBE">
+      <description>Raw data of the 4 hole vector probe.</description>
+      <field type="uint64_t" name="timestamp">Timestamp</field>
+      <field type="float" name="raw_pressure1">Raw pressure on port 1</field>
+      <field type="float" name="raw_pressure2">Raw pressure on port 2</field>
+      <field type="float" name="raw_pressure3">Raw pressure on port 3</field>
+      <field type="float" name="raw_pressure4">Raw pressure on port 4</field>
+      <field type="float" name="filtered_pressure1">filtered pressure on port 1</field>
+      <field type="float" name="filtered_pressure2">filtered pressure on port 2</field>
+      <field type="float" name="filtered_pressure3">filtered pressure on port 3</field>
+      <field type="float" name="filtered_pressure4">filtered pressure on port 4</field>
+      <field type="float" name="alpha">Angle of attack</field>
+      <field type="float" name="beta">Sideslip angle</field>
+      <field type="float" name="u">airspeed</field>
+      <field type="float" name="pt">total pressure</field>
+    </message>
+    <message id="215" name="V4HP_CALIB_REFERENCE">
+      <description>Orientation of the robot arm.</description>
+      <field type="uint64_t" name="timestamp">Timestamp</field>
+      <field type="int16_t" name="alpha">alpha (degrees*10)</field>
+      <field type="int16_t" name="beta">beta (degrees*10)</field>
+    </message>
   </messages>
 </mavlink>
