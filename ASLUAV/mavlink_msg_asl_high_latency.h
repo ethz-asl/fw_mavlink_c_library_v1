@@ -15,10 +15,10 @@ typedef struct __mavlink_asl_high_latency_t {
  int8_t roll; /*< Roll angle [deg]*/
  uint8_t heading; /*< Heading [deg / 2]*/
  uint8_t throttle; /*< Current throttle [1/100]*/
- uint8_t airspeed; /*< Airspeed [m/s]*/
- uint8_t airspeed_sp; /*< Airspeed setpoint [m/s]*/
+ uint8_t airspeed; /*< Airspeed [m/s * 10]*/
+ uint8_t airspeed_sp; /*< Airspeed setpoint [m/s * 10]*/
  uint8_t windspeed; /*< Windspeed [m/s * 10]*/
- uint8_t groundspeed; /*< Groundspeed [m/s]*/
+ uint8_t groundspeed; /*< Groundspeed [m/s * 10]*/
  uint8_t gps_nsat; /*< Number of satellites visible. If unknown, set to 255*/
  uint8_t gps_fix_type; /*< See the GPS_FIX_TYPE enum.*/
  int8_t temperature_air; /*< Air temperature (degrees C) from airspeed sensor*/
@@ -30,9 +30,9 @@ typedef struct __mavlink_asl_high_latency_t {
  uint8_t state_batmon1; /*< Status bits of batmon 1*/
  uint8_t state_batmon2; /*< Status bits of batmon 2*/
  int8_t p_avg_bat; /*< Average power of all batteries since last message ( <0: CHG, >0: DCHG) [W / 4]*/
- uint8_t v_avg_bat0; /*< Averag voltage of battery 0 since last msg*/
- uint8_t v_avg_bat1; /*< Averag voltage of battery 1 since last msg*/
- uint8_t v_avg_bat2; /*< Averag voltage of battery 2 since last msg*/
+ uint8_t v_avg_bat0; /*< Averag voltage of battery 0 since last msg [V * 10]*/
+ uint8_t v_avg_bat1; /*< Averag voltage of battery 1 since last msg [V * 10]*/
+ uint8_t v_avg_bat2; /*< Averag voltage of battery 2 since last msg [V * 10]*/
  uint8_t status_pwrbrd; /*< Power board status register, as in SENS_POWER_BOARD*/
  uint8_t p_out; /*< Average power consumed by all components (Motors, Avionics, OBC, ...) since last msg [W / 2]*/
 }) mavlink_asl_high_latency_t;
@@ -137,10 +137,10 @@ typedef struct __mavlink_asl_high_latency_t {
  * @param longitude Longitude [deg * 1E7]
  * @param altitude_amsl Altitude above mean sea level [m]
  * @param altitude_sp Altitude setpoint above mean sea level [m]
- * @param airspeed Airspeed [m/s]
- * @param airspeed_sp Airspeed setpoint [m/s]
+ * @param airspeed Airspeed [m/s * 10]
+ * @param airspeed_sp Airspeed setpoint [m/s * 10]
  * @param windspeed Windspeed [m/s * 10]
- * @param groundspeed Groundspeed [m/s]
+ * @param groundspeed Groundspeed [m/s * 10]
  * @param gps_nsat Number of satellites visible. If unknown, set to 255
  * @param gps_fix_type See the GPS_FIX_TYPE enum.
  * @param temperature_air Air temperature (degrees C) from airspeed sensor
@@ -153,9 +153,9 @@ typedef struct __mavlink_asl_high_latency_t {
  * @param state_batmon1 Status bits of batmon 1
  * @param state_batmon2 Status bits of batmon 2
  * @param p_avg_bat Average power of all batteries since last message ( <0: CHG, >0: DCHG) [W / 4]
- * @param v_avg_bat0 Averag voltage of battery 0 since last msg
- * @param v_avg_bat1 Averag voltage of battery 1 since last msg
- * @param v_avg_bat2 Averag voltage of battery 2 since last msg
+ * @param v_avg_bat0 Averag voltage of battery 0 since last msg [V * 10]
+ * @param v_avg_bat1 Averag voltage of battery 1 since last msg [V * 10]
+ * @param v_avg_bat2 Averag voltage of battery 2 since last msg [V * 10]
  * @param status_pwrbrd Power board status register, as in SENS_POWER_BOARD
  * @param p_out Average power consumed by all components (Motors, Avionics, OBC, ...) since last msg [W / 2]
  * @return length of the message in bytes (excluding serial stream start sign)
@@ -252,10 +252,10 @@ static inline uint16_t mavlink_msg_asl_high_latency_pack(uint8_t system_id, uint
  * @param longitude Longitude [deg * 1E7]
  * @param altitude_amsl Altitude above mean sea level [m]
  * @param altitude_sp Altitude setpoint above mean sea level [m]
- * @param airspeed Airspeed [m/s]
- * @param airspeed_sp Airspeed setpoint [m/s]
+ * @param airspeed Airspeed [m/s * 10]
+ * @param airspeed_sp Airspeed setpoint [m/s * 10]
  * @param windspeed Windspeed [m/s * 10]
- * @param groundspeed Groundspeed [m/s]
+ * @param groundspeed Groundspeed [m/s * 10]
  * @param gps_nsat Number of satellites visible. If unknown, set to 255
  * @param gps_fix_type See the GPS_FIX_TYPE enum.
  * @param temperature_air Air temperature (degrees C) from airspeed sensor
@@ -268,9 +268,9 @@ static inline uint16_t mavlink_msg_asl_high_latency_pack(uint8_t system_id, uint
  * @param state_batmon1 Status bits of batmon 1
  * @param state_batmon2 Status bits of batmon 2
  * @param p_avg_bat Average power of all batteries since last message ( <0: CHG, >0: DCHG) [W / 4]
- * @param v_avg_bat0 Averag voltage of battery 0 since last msg
- * @param v_avg_bat1 Averag voltage of battery 1 since last msg
- * @param v_avg_bat2 Averag voltage of battery 2 since last msg
+ * @param v_avg_bat0 Averag voltage of battery 0 since last msg [V * 10]
+ * @param v_avg_bat1 Averag voltage of battery 1 since last msg [V * 10]
+ * @param v_avg_bat2 Averag voltage of battery 2 since last msg [V * 10]
  * @param status_pwrbrd Power board status register, as in SENS_POWER_BOARD
  * @param p_out Average power consumed by all components (Motors, Avionics, OBC, ...) since last msg [W / 2]
  * @return length of the message in bytes (excluding serial stream start sign)
@@ -393,10 +393,10 @@ static inline uint16_t mavlink_msg_asl_high_latency_encode_chan(uint8_t system_i
  * @param longitude Longitude [deg * 1E7]
  * @param altitude_amsl Altitude above mean sea level [m]
  * @param altitude_sp Altitude setpoint above mean sea level [m]
- * @param airspeed Airspeed [m/s]
- * @param airspeed_sp Airspeed setpoint [m/s]
+ * @param airspeed Airspeed [m/s * 10]
+ * @param airspeed_sp Airspeed setpoint [m/s * 10]
  * @param windspeed Windspeed [m/s * 10]
- * @param groundspeed Groundspeed [m/s]
+ * @param groundspeed Groundspeed [m/s * 10]
  * @param gps_nsat Number of satellites visible. If unknown, set to 255
  * @param gps_fix_type See the GPS_FIX_TYPE enum.
  * @param temperature_air Air temperature (degrees C) from airspeed sensor
@@ -409,9 +409,9 @@ static inline uint16_t mavlink_msg_asl_high_latency_encode_chan(uint8_t system_i
  * @param state_batmon1 Status bits of batmon 1
  * @param state_batmon2 Status bits of batmon 2
  * @param p_avg_bat Average power of all batteries since last message ( <0: CHG, >0: DCHG) [W / 4]
- * @param v_avg_bat0 Averag voltage of battery 0 since last msg
- * @param v_avg_bat1 Averag voltage of battery 1 since last msg
- * @param v_avg_bat2 Averag voltage of battery 2 since last msg
+ * @param v_avg_bat0 Averag voltage of battery 0 since last msg [V * 10]
+ * @param v_avg_bat1 Averag voltage of battery 1 since last msg [V * 10]
+ * @param v_avg_bat2 Averag voltage of battery 2 since last msg [V * 10]
  * @param status_pwrbrd Power board status register, as in SENS_POWER_BOARD
  * @param p_out Average power consumed by all components (Motors, Avionics, OBC, ...) since last msg [W / 2]
  */
@@ -684,7 +684,7 @@ static inline int16_t mavlink_msg_asl_high_latency_get_altitude_sp(const mavlink
 /**
  * @brief Get field airspeed from asl_high_latency message
  *
- * @return Airspeed [m/s]
+ * @return Airspeed [m/s * 10]
  */
 static inline uint8_t mavlink_msg_asl_high_latency_get_airspeed(const mavlink_message_t* msg)
 {
@@ -694,7 +694,7 @@ static inline uint8_t mavlink_msg_asl_high_latency_get_airspeed(const mavlink_me
 /**
  * @brief Get field airspeed_sp from asl_high_latency message
  *
- * @return Airspeed setpoint [m/s]
+ * @return Airspeed setpoint [m/s * 10]
  */
 static inline uint8_t mavlink_msg_asl_high_latency_get_airspeed_sp(const mavlink_message_t* msg)
 {
@@ -714,7 +714,7 @@ static inline uint8_t mavlink_msg_asl_high_latency_get_windspeed(const mavlink_m
 /**
  * @brief Get field groundspeed from asl_high_latency message
  *
- * @return Groundspeed [m/s]
+ * @return Groundspeed [m/s * 10]
  */
 static inline uint8_t mavlink_msg_asl_high_latency_get_groundspeed(const mavlink_message_t* msg)
 {
@@ -844,7 +844,7 @@ static inline int8_t mavlink_msg_asl_high_latency_get_p_avg_bat(const mavlink_me
 /**
  * @brief Get field v_avg_bat0 from asl_high_latency message
  *
- * @return Averag voltage of battery 0 since last msg
+ * @return Averag voltage of battery 0 since last msg [V * 10]
  */
 static inline uint8_t mavlink_msg_asl_high_latency_get_v_avg_bat0(const mavlink_message_t* msg)
 {
@@ -854,7 +854,7 @@ static inline uint8_t mavlink_msg_asl_high_latency_get_v_avg_bat0(const mavlink_
 /**
  * @brief Get field v_avg_bat1 from asl_high_latency message
  *
- * @return Averag voltage of battery 1 since last msg
+ * @return Averag voltage of battery 1 since last msg [V * 10]
  */
 static inline uint8_t mavlink_msg_asl_high_latency_get_v_avg_bat1(const mavlink_message_t* msg)
 {
@@ -864,7 +864,7 @@ static inline uint8_t mavlink_msg_asl_high_latency_get_v_avg_bat1(const mavlink_
 /**
  * @brief Get field v_avg_bat2 from asl_high_latency message
  *
- * @return Averag voltage of battery 2 since last msg
+ * @return Averag voltage of battery 2 since last msg [V * 10]
  */
 static inline uint8_t mavlink_msg_asl_high_latency_get_v_avg_bat2(const mavlink_message_t* msg)
 {

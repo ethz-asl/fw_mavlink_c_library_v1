@@ -219,10 +219,10 @@
       <field name="longitude" type="int32_t">Longitude [deg * 1E7]</field>
       <field name="altitude_amsl" type="int16_t">Altitude above mean sea level [m]</field>
       <field name="altitude_sp" type="int16_t">Altitude setpoint above mean sea level [m]</field>
-      <field name="airspeed" type="uint8_t">Airspeed [m/s]</field>
-      <field name="airspeed_sp" type="uint8_t">Airspeed setpoint [m/s]</field>
+      <field name="airspeed" type="uint8_t">Airspeed [m/s * 10]</field>
+      <field name="airspeed_sp" type="uint8_t">Airspeed setpoint [m/s * 10]</field>
       <field name="windspeed" type="uint8_t">Windspeed [m/s * 10]</field>
-      <field name="groundspeed" type="uint8_t">Groundspeed [m/s]</field>
+      <field name="groundspeed" type="uint8_t">Groundspeed [m/s * 10]</field>
       <field name="gps_nsat" type="uint8_t">Number of satellites visible. If unknown, set to 255</field>
       <field name="gps_fix_type" type="uint8_t">See the GPS_FIX_TYPE enum.</field>
       <field name="temperature_air" type="int8_t">Air temperature (degrees C) from airspeed sensor</field>
@@ -235,9 +235,9 @@
       <field name="state_batmon1" type="uint8_t">Status bits of batmon 1</field>
       <field name="state_batmon2" type="uint8_t">Status bits of batmon 2</field>
       <field name="p_avg_bat" type="int8_t">Average power of all batteries since last message ( &lt;0: CHG, &gt;0: DCHG) [W / 4]</field>
-      <field name="v_avg_bat0" type="uint8_t">Averag voltage of battery 0 since last msg</field>
-      <field name="v_avg_bat1" type="uint8_t">Averag voltage of battery 1 since last msg</field>
-      <field name="v_avg_bat2" type="uint8_t">Averag voltage of battery 2 since last msg</field>
+      <field name="v_avg_bat0" type="uint8_t">Averag voltage of battery 0 since last msg [V * 10]</field>
+      <field name="v_avg_bat1" type="uint8_t">Averag voltage of battery 1 since last msg [V * 10]</field>
+      <field name="v_avg_bat2" type="uint8_t">Averag voltage of battery 2 since last msg [V * 10]</field>
       <field name="status_pwrbrd" type="uint8_t">Power board status register, as in SENS_POWER_BOARD</field>
       <field name="p_out" type="uint8_t">Average power consumed by all components (Motors, Avionics, OBC, ...) since last msg [W / 2]</field>
     </message>
