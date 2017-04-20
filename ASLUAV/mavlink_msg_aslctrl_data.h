@@ -28,7 +28,7 @@ typedef struct __mavlink_aslctrl_data_t {
  float uAil; /*<  */
  float uRud; /*<  */
  uint8_t aslctrl_mode; /*<  ASLCTRL control-mode (manual, stabilized, auto, etc...)*/
- uint8_t SpoilersEngaged; /*<  */
+ int8_t SpoilerState; /*< Spoiler state (0=off, positive up, negative down) */
 }) mavlink_aslctrl_data_t;
 
 #define MAVLINK_MSG_ID_ASLCTRL_DATA_LEN 98
@@ -36,8 +36,8 @@ typedef struct __mavlink_aslctrl_data_t {
 #define MAVLINK_MSG_ID_203_LEN 98
 #define MAVLINK_MSG_ID_203_MIN_LEN 98
 
-#define MAVLINK_MSG_ID_ASLCTRL_DATA_CRC 172
-#define MAVLINK_MSG_ID_203_CRC 172
+#define MAVLINK_MSG_ID_ASLCTRL_DATA_CRC 145
+#define MAVLINK_MSG_ID_203_CRC 145
 
 
 
@@ -70,7 +70,7 @@ typedef struct __mavlink_aslctrl_data_t {
          { "uAil", NULL, MAVLINK_TYPE_FLOAT, 0, 88, offsetof(mavlink_aslctrl_data_t, uAil) }, \
          { "uRud", NULL, MAVLINK_TYPE_FLOAT, 0, 92, offsetof(mavlink_aslctrl_data_t, uRud) }, \
          { "aslctrl_mode", NULL, MAVLINK_TYPE_UINT8_T, 0, 96, offsetof(mavlink_aslctrl_data_t, aslctrl_mode) }, \
-         { "SpoilersEngaged", NULL, MAVLINK_TYPE_UINT8_T, 0, 97, offsetof(mavlink_aslctrl_data_t, SpoilersEngaged) }, \
+         { "SpoilerState", NULL, MAVLINK_TYPE_INT8_T, 0, 97, offsetof(mavlink_aslctrl_data_t, SpoilerState) }, \
          } \
 }
 #else
@@ -101,7 +101,7 @@ typedef struct __mavlink_aslctrl_data_t {
          { "uAil", NULL, MAVLINK_TYPE_FLOAT, 0, 88, offsetof(mavlink_aslctrl_data_t, uAil) }, \
          { "uRud", NULL, MAVLINK_TYPE_FLOAT, 0, 92, offsetof(mavlink_aslctrl_data_t, uRud) }, \
          { "aslctrl_mode", NULL, MAVLINK_TYPE_UINT8_T, 0, 96, offsetof(mavlink_aslctrl_data_t, aslctrl_mode) }, \
-         { "SpoilersEngaged", NULL, MAVLINK_TYPE_UINT8_T, 0, 97, offsetof(mavlink_aslctrl_data_t, SpoilersEngaged) }, \
+         { "SpoilerState", NULL, MAVLINK_TYPE_INT8_T, 0, 97, offsetof(mavlink_aslctrl_data_t, SpoilerState) }, \
          } \
 }
 #endif
@@ -126,7 +126,7 @@ typedef struct __mavlink_aslctrl_data_t {
  * @param uThrot2  
  * @param nZ  
  * @param AirspeedRef Airspeed reference [m/s]
- * @param SpoilersEngaged  
+ * @param SpoilerState Spoiler state (0=off, positive up, negative down) 
  * @param YawAngle Yaw angle [deg]
  * @param YawAngleRef Yaw angle reference[deg]
  * @param RollAngle Roll angle [deg]
@@ -140,7 +140,7 @@ typedef struct __mavlink_aslctrl_data_t {
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_aslctrl_data_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-						       uint64_t timestamp, uint8_t aslctrl_mode, float h, float hRef, float hRef_t, float PitchAngle, float PitchAngleRef, float q, float qRef, float uElev, float uThrot, float uThrot2, float nZ, float AirspeedRef, uint8_t SpoilersEngaged, float YawAngle, float YawAngleRef, float RollAngle, float RollAngleRef, float p, float pRef, float r, float rRef, float uAil, float uRud)
+						       uint64_t timestamp, uint8_t aslctrl_mode, float h, float hRef, float hRef_t, float PitchAngle, float PitchAngleRef, float q, float qRef, float uElev, float uThrot, float uThrot2, float nZ, float AirspeedRef, int8_t SpoilerState, float YawAngle, float YawAngleRef, float RollAngle, float RollAngleRef, float p, float pRef, float r, float rRef, float uAil, float uRud)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
 	char buf[MAVLINK_MSG_ID_ASLCTRL_DATA_LEN];
@@ -168,7 +168,7 @@ static inline uint16_t mavlink_msg_aslctrl_data_pack(uint8_t system_id, uint8_t 
 	_mav_put_float(buf, 88, uAil);
 	_mav_put_float(buf, 92, uRud);
 	_mav_put_uint8_t(buf, 96, aslctrl_mode);
-	_mav_put_uint8_t(buf, 97, SpoilersEngaged);
+	_mav_put_int8_t(buf, 97, SpoilerState);
 
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_ASLCTRL_DATA_LEN);
 #else
@@ -197,7 +197,7 @@ static inline uint16_t mavlink_msg_aslctrl_data_pack(uint8_t system_id, uint8_t 
 	packet.uAil = uAil;
 	packet.uRud = uRud;
 	packet.aslctrl_mode = aslctrl_mode;
-	packet.SpoilersEngaged = SpoilersEngaged;
+	packet.SpoilerState = SpoilerState;
 
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_ASLCTRL_DATA_LEN);
 #endif
@@ -226,7 +226,7 @@ static inline uint16_t mavlink_msg_aslctrl_data_pack(uint8_t system_id, uint8_t 
  * @param uThrot2  
  * @param nZ  
  * @param AirspeedRef Airspeed reference [m/s]
- * @param SpoilersEngaged  
+ * @param SpoilerState Spoiler state (0=off, positive up, negative down) 
  * @param YawAngle Yaw angle [deg]
  * @param YawAngleRef Yaw angle reference[deg]
  * @param RollAngle Roll angle [deg]
@@ -241,7 +241,7 @@ static inline uint16_t mavlink_msg_aslctrl_data_pack(uint8_t system_id, uint8_t 
  */
 static inline uint16_t mavlink_msg_aslctrl_data_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
 							   mavlink_message_t* msg,
-						           uint64_t timestamp,uint8_t aslctrl_mode,float h,float hRef,float hRef_t,float PitchAngle,float PitchAngleRef,float q,float qRef,float uElev,float uThrot,float uThrot2,float nZ,float AirspeedRef,uint8_t SpoilersEngaged,float YawAngle,float YawAngleRef,float RollAngle,float RollAngleRef,float p,float pRef,float r,float rRef,float uAil,float uRud)
+						           uint64_t timestamp,uint8_t aslctrl_mode,float h,float hRef,float hRef_t,float PitchAngle,float PitchAngleRef,float q,float qRef,float uElev,float uThrot,float uThrot2,float nZ,float AirspeedRef,int8_t SpoilerState,float YawAngle,float YawAngleRef,float RollAngle,float RollAngleRef,float p,float pRef,float r,float rRef,float uAil,float uRud)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
 	char buf[MAVLINK_MSG_ID_ASLCTRL_DATA_LEN];
@@ -269,7 +269,7 @@ static inline uint16_t mavlink_msg_aslctrl_data_pack_chan(uint8_t system_id, uin
 	_mav_put_float(buf, 88, uAil);
 	_mav_put_float(buf, 92, uRud);
 	_mav_put_uint8_t(buf, 96, aslctrl_mode);
-	_mav_put_uint8_t(buf, 97, SpoilersEngaged);
+	_mav_put_int8_t(buf, 97, SpoilerState);
 
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_ASLCTRL_DATA_LEN);
 #else
@@ -298,7 +298,7 @@ static inline uint16_t mavlink_msg_aslctrl_data_pack_chan(uint8_t system_id, uin
 	packet.uAil = uAil;
 	packet.uRud = uRud;
 	packet.aslctrl_mode = aslctrl_mode;
-	packet.SpoilersEngaged = SpoilersEngaged;
+	packet.SpoilerState = SpoilerState;
 
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_ASLCTRL_DATA_LEN);
 #endif
@@ -317,7 +317,7 @@ static inline uint16_t mavlink_msg_aslctrl_data_pack_chan(uint8_t system_id, uin
  */
 static inline uint16_t mavlink_msg_aslctrl_data_encode(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg, const mavlink_aslctrl_data_t* aslctrl_data)
 {
-	return mavlink_msg_aslctrl_data_pack(system_id, component_id, msg, aslctrl_data->timestamp, aslctrl_data->aslctrl_mode, aslctrl_data->h, aslctrl_data->hRef, aslctrl_data->hRef_t, aslctrl_data->PitchAngle, aslctrl_data->PitchAngleRef, aslctrl_data->q, aslctrl_data->qRef, aslctrl_data->uElev, aslctrl_data->uThrot, aslctrl_data->uThrot2, aslctrl_data->nZ, aslctrl_data->AirspeedRef, aslctrl_data->SpoilersEngaged, aslctrl_data->YawAngle, aslctrl_data->YawAngleRef, aslctrl_data->RollAngle, aslctrl_data->RollAngleRef, aslctrl_data->p, aslctrl_data->pRef, aslctrl_data->r, aslctrl_data->rRef, aslctrl_data->uAil, aslctrl_data->uRud);
+	return mavlink_msg_aslctrl_data_pack(system_id, component_id, msg, aslctrl_data->timestamp, aslctrl_data->aslctrl_mode, aslctrl_data->h, aslctrl_data->hRef, aslctrl_data->hRef_t, aslctrl_data->PitchAngle, aslctrl_data->PitchAngleRef, aslctrl_data->q, aslctrl_data->qRef, aslctrl_data->uElev, aslctrl_data->uThrot, aslctrl_data->uThrot2, aslctrl_data->nZ, aslctrl_data->AirspeedRef, aslctrl_data->SpoilerState, aslctrl_data->YawAngle, aslctrl_data->YawAngleRef, aslctrl_data->RollAngle, aslctrl_data->RollAngleRef, aslctrl_data->p, aslctrl_data->pRef, aslctrl_data->r, aslctrl_data->rRef, aslctrl_data->uAil, aslctrl_data->uRud);
 }
 
 /**
@@ -331,7 +331,7 @@ static inline uint16_t mavlink_msg_aslctrl_data_encode(uint8_t system_id, uint8_
  */
 static inline uint16_t mavlink_msg_aslctrl_data_encode_chan(uint8_t system_id, uint8_t component_id, uint8_t chan, mavlink_message_t* msg, const mavlink_aslctrl_data_t* aslctrl_data)
 {
-	return mavlink_msg_aslctrl_data_pack_chan(system_id, component_id, chan, msg, aslctrl_data->timestamp, aslctrl_data->aslctrl_mode, aslctrl_data->h, aslctrl_data->hRef, aslctrl_data->hRef_t, aslctrl_data->PitchAngle, aslctrl_data->PitchAngleRef, aslctrl_data->q, aslctrl_data->qRef, aslctrl_data->uElev, aslctrl_data->uThrot, aslctrl_data->uThrot2, aslctrl_data->nZ, aslctrl_data->AirspeedRef, aslctrl_data->SpoilersEngaged, aslctrl_data->YawAngle, aslctrl_data->YawAngleRef, aslctrl_data->RollAngle, aslctrl_data->RollAngleRef, aslctrl_data->p, aslctrl_data->pRef, aslctrl_data->r, aslctrl_data->rRef, aslctrl_data->uAil, aslctrl_data->uRud);
+	return mavlink_msg_aslctrl_data_pack_chan(system_id, component_id, chan, msg, aslctrl_data->timestamp, aslctrl_data->aslctrl_mode, aslctrl_data->h, aslctrl_data->hRef, aslctrl_data->hRef_t, aslctrl_data->PitchAngle, aslctrl_data->PitchAngleRef, aslctrl_data->q, aslctrl_data->qRef, aslctrl_data->uElev, aslctrl_data->uThrot, aslctrl_data->uThrot2, aslctrl_data->nZ, aslctrl_data->AirspeedRef, aslctrl_data->SpoilerState, aslctrl_data->YawAngle, aslctrl_data->YawAngleRef, aslctrl_data->RollAngle, aslctrl_data->RollAngleRef, aslctrl_data->p, aslctrl_data->pRef, aslctrl_data->r, aslctrl_data->rRef, aslctrl_data->uAil, aslctrl_data->uRud);
 }
 
 /**
@@ -352,7 +352,7 @@ static inline uint16_t mavlink_msg_aslctrl_data_encode_chan(uint8_t system_id, u
  * @param uThrot2  
  * @param nZ  
  * @param AirspeedRef Airspeed reference [m/s]
- * @param SpoilersEngaged  
+ * @param SpoilerState Spoiler state (0=off, positive up, negative down) 
  * @param YawAngle Yaw angle [deg]
  * @param YawAngleRef Yaw angle reference[deg]
  * @param RollAngle Roll angle [deg]
@@ -366,7 +366,7 @@ static inline uint16_t mavlink_msg_aslctrl_data_encode_chan(uint8_t system_id, u
  */
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS
 
-static inline void mavlink_msg_aslctrl_data_send(mavlink_channel_t chan, uint64_t timestamp, uint8_t aslctrl_mode, float h, float hRef, float hRef_t, float PitchAngle, float PitchAngleRef, float q, float qRef, float uElev, float uThrot, float uThrot2, float nZ, float AirspeedRef, uint8_t SpoilersEngaged, float YawAngle, float YawAngleRef, float RollAngle, float RollAngleRef, float p, float pRef, float r, float rRef, float uAil, float uRud)
+static inline void mavlink_msg_aslctrl_data_send(mavlink_channel_t chan, uint64_t timestamp, uint8_t aslctrl_mode, float h, float hRef, float hRef_t, float PitchAngle, float PitchAngleRef, float q, float qRef, float uElev, float uThrot, float uThrot2, float nZ, float AirspeedRef, int8_t SpoilerState, float YawAngle, float YawAngleRef, float RollAngle, float RollAngleRef, float p, float pRef, float r, float rRef, float uAil, float uRud)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
 	char buf[MAVLINK_MSG_ID_ASLCTRL_DATA_LEN];
@@ -394,7 +394,7 @@ static inline void mavlink_msg_aslctrl_data_send(mavlink_channel_t chan, uint64_
 	_mav_put_float(buf, 88, uAil);
 	_mav_put_float(buf, 92, uRud);
 	_mav_put_uint8_t(buf, 96, aslctrl_mode);
-	_mav_put_uint8_t(buf, 97, SpoilersEngaged);
+	_mav_put_int8_t(buf, 97, SpoilerState);
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ASLCTRL_DATA, buf, MAVLINK_MSG_ID_ASLCTRL_DATA_MIN_LEN, MAVLINK_MSG_ID_ASLCTRL_DATA_LEN, MAVLINK_MSG_ID_ASLCTRL_DATA_CRC);
 #else
@@ -423,7 +423,7 @@ static inline void mavlink_msg_aslctrl_data_send(mavlink_channel_t chan, uint64_
 	packet.uAil = uAil;
 	packet.uRud = uRud;
 	packet.aslctrl_mode = aslctrl_mode;
-	packet.SpoilersEngaged = SpoilersEngaged;
+	packet.SpoilerState = SpoilerState;
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ASLCTRL_DATA, (const char *)&packet, MAVLINK_MSG_ID_ASLCTRL_DATA_MIN_LEN, MAVLINK_MSG_ID_ASLCTRL_DATA_LEN, MAVLINK_MSG_ID_ASLCTRL_DATA_CRC);
 #endif
@@ -437,7 +437,7 @@ static inline void mavlink_msg_aslctrl_data_send(mavlink_channel_t chan, uint64_
 static inline void mavlink_msg_aslctrl_data_send_struct(mavlink_channel_t chan, const mavlink_aslctrl_data_t* aslctrl_data)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    mavlink_msg_aslctrl_data_send(chan, aslctrl_data->timestamp, aslctrl_data->aslctrl_mode, aslctrl_data->h, aslctrl_data->hRef, aslctrl_data->hRef_t, aslctrl_data->PitchAngle, aslctrl_data->PitchAngleRef, aslctrl_data->q, aslctrl_data->qRef, aslctrl_data->uElev, aslctrl_data->uThrot, aslctrl_data->uThrot2, aslctrl_data->nZ, aslctrl_data->AirspeedRef, aslctrl_data->SpoilersEngaged, aslctrl_data->YawAngle, aslctrl_data->YawAngleRef, aslctrl_data->RollAngle, aslctrl_data->RollAngleRef, aslctrl_data->p, aslctrl_data->pRef, aslctrl_data->r, aslctrl_data->rRef, aslctrl_data->uAil, aslctrl_data->uRud);
+    mavlink_msg_aslctrl_data_send(chan, aslctrl_data->timestamp, aslctrl_data->aslctrl_mode, aslctrl_data->h, aslctrl_data->hRef, aslctrl_data->hRef_t, aslctrl_data->PitchAngle, aslctrl_data->PitchAngleRef, aslctrl_data->q, aslctrl_data->qRef, aslctrl_data->uElev, aslctrl_data->uThrot, aslctrl_data->uThrot2, aslctrl_data->nZ, aslctrl_data->AirspeedRef, aslctrl_data->SpoilerState, aslctrl_data->YawAngle, aslctrl_data->YawAngleRef, aslctrl_data->RollAngle, aslctrl_data->RollAngleRef, aslctrl_data->p, aslctrl_data->pRef, aslctrl_data->r, aslctrl_data->rRef, aslctrl_data->uAil, aslctrl_data->uRud);
 #else
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ASLCTRL_DATA, (const char *)aslctrl_data, MAVLINK_MSG_ID_ASLCTRL_DATA_MIN_LEN, MAVLINK_MSG_ID_ASLCTRL_DATA_LEN, MAVLINK_MSG_ID_ASLCTRL_DATA_CRC);
 #endif
@@ -451,7 +451,7 @@ static inline void mavlink_msg_aslctrl_data_send_struct(mavlink_channel_t chan, 
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_aslctrl_data_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint64_t timestamp, uint8_t aslctrl_mode, float h, float hRef, float hRef_t, float PitchAngle, float PitchAngleRef, float q, float qRef, float uElev, float uThrot, float uThrot2, float nZ, float AirspeedRef, uint8_t SpoilersEngaged, float YawAngle, float YawAngleRef, float RollAngle, float RollAngleRef, float p, float pRef, float r, float rRef, float uAil, float uRud)
+static inline void mavlink_msg_aslctrl_data_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint64_t timestamp, uint8_t aslctrl_mode, float h, float hRef, float hRef_t, float PitchAngle, float PitchAngleRef, float q, float qRef, float uElev, float uThrot, float uThrot2, float nZ, float AirspeedRef, int8_t SpoilerState, float YawAngle, float YawAngleRef, float RollAngle, float RollAngleRef, float p, float pRef, float r, float rRef, float uAil, float uRud)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
 	char *buf = (char *)msgbuf;
@@ -479,7 +479,7 @@ static inline void mavlink_msg_aslctrl_data_send_buf(mavlink_message_t *msgbuf, 
 	_mav_put_float(buf, 88, uAil);
 	_mav_put_float(buf, 92, uRud);
 	_mav_put_uint8_t(buf, 96, aslctrl_mode);
-	_mav_put_uint8_t(buf, 97, SpoilersEngaged);
+	_mav_put_int8_t(buf, 97, SpoilerState);
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ASLCTRL_DATA, buf, MAVLINK_MSG_ID_ASLCTRL_DATA_MIN_LEN, MAVLINK_MSG_ID_ASLCTRL_DATA_LEN, MAVLINK_MSG_ID_ASLCTRL_DATA_CRC);
 #else
@@ -508,7 +508,7 @@ static inline void mavlink_msg_aslctrl_data_send_buf(mavlink_message_t *msgbuf, 
 	packet->uAil = uAil;
 	packet->uRud = uRud;
 	packet->aslctrl_mode = aslctrl_mode;
-	packet->SpoilersEngaged = SpoilersEngaged;
+	packet->SpoilerState = SpoilerState;
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ASLCTRL_DATA, (const char *)packet, MAVLINK_MSG_ID_ASLCTRL_DATA_MIN_LEN, MAVLINK_MSG_ID_ASLCTRL_DATA_LEN, MAVLINK_MSG_ID_ASLCTRL_DATA_CRC);
 #endif
@@ -661,13 +661,13 @@ static inline float mavlink_msg_aslctrl_data_get_AirspeedRef(const mavlink_messa
 }
 
 /**
- * @brief Get field SpoilersEngaged from aslctrl_data message
+ * @brief Get field SpoilerState from aslctrl_data message
  *
- * @return  
+ * @return Spoiler state (0=off, positive up, negative down) 
  */
-static inline uint8_t mavlink_msg_aslctrl_data_get_SpoilersEngaged(const mavlink_message_t* msg)
+static inline int8_t mavlink_msg_aslctrl_data_get_SpoilerState(const mavlink_message_t* msg)
 {
-	return _MAV_RETURN_uint8_t(msg,  97);
+	return _MAV_RETURN_int8_t(msg,  97);
 }
 
 /**
@@ -803,7 +803,7 @@ static inline void mavlink_msg_aslctrl_data_decode(const mavlink_message_t* msg,
 	aslctrl_data->uAil = mavlink_msg_aslctrl_data_get_uAil(msg);
 	aslctrl_data->uRud = mavlink_msg_aslctrl_data_get_uRud(msg);
 	aslctrl_data->aslctrl_mode = mavlink_msg_aslctrl_data_get_aslctrl_mode(msg);
-	aslctrl_data->SpoilersEngaged = mavlink_msg_aslctrl_data_get_SpoilersEngaged(msg);
+	aslctrl_data->SpoilerState = mavlink_msg_aslctrl_data_get_SpoilerState(msg);
 #else
         uint8_t len = msg->len < MAVLINK_MSG_ID_ASLCTRL_DATA_LEN? msg->len : MAVLINK_MSG_ID_ASLCTRL_DATA_LEN;
         memset(aslctrl_data, 0, MAVLINK_MSG_ID_ASLCTRL_DATA_LEN);
