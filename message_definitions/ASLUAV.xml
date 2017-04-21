@@ -78,7 +78,7 @@
       <field type="float" name="uThrot2"> </field>
       <field type="float" name="nZ"> </field>
       <field type="float" name="AirspeedRef">Airspeed reference [m/s]</field>
-      <field type="uint8_t" name="SpoilersEngaged"> </field>
+      <field type="int8_t" name="SpoilerState"> SpoilerState (0=off, positive up, negative down)</field>
       <field type="float" name="YawAngle">Yaw angle [deg]</field>
       <field type="float" name="YawAngleRef">Yaw angle reference[deg]</field>
       <field type="float" name="RollAngle">Roll angle [deg]</field>

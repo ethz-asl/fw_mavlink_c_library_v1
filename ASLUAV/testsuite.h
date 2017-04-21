@@ -188,7 +188,7 @@ static void mavlink_test_aslctrl_data(uint8_t system_id, uint8_t component_id, m
         packet1.uAil = packet_in.uAil;
         packet1.uRud = packet_in.uRud;
         packet1.aslctrl_mode = packet_in.aslctrl_mode;
-        packet1.SpoilersEngaged = packet_in.SpoilersEngaged;
+        packet1.SpoilerState = packet_in.SpoilerState;
         
         
 #ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
@@ -203,12 +203,12 @@ static void mavlink_test_aslctrl_data(uint8_t system_id, uint8_t component_id, m
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_aslctrl_data_pack(system_id, component_id, &msg , packet1.timestamp , packet1.aslctrl_mode , packet1.h , packet1.hRef , packet1.hRef_t , packet1.PitchAngle , packet1.PitchAngleRef , packet1.q , packet1.qRef , packet1.uElev , packet1.uThrot , packet1.uThrot2 , packet1.nZ , packet1.AirspeedRef , packet1.SpoilersEngaged , packet1.YawAngle , packet1.YawAngleRef , packet1.RollAngle , packet1.RollAngleRef , packet1.p , packet1.pRef , packet1.r , packet1.rRef , packet1.uAil , packet1.uRud );
+    mavlink_msg_aslctrl_data_pack(system_id, component_id, &msg , packet1.timestamp , packet1.aslctrl_mode , packet1.h , packet1.hRef , packet1.hRef_t , packet1.PitchAngle , packet1.PitchAngleRef , packet1.q , packet1.qRef , packet1.uElev , packet1.uThrot , packet1.uThrot2 , packet1.nZ , packet1.AirspeedRef , packet1.SpoilerState , packet1.YawAngle , packet1.YawAngleRef , packet1.RollAngle , packet1.RollAngleRef , packet1.p , packet1.pRef , packet1.r , packet1.rRef , packet1.uAil , packet1.uRud );
     mavlink_msg_aslctrl_data_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_aslctrl_data_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.timestamp , packet1.aslctrl_mode , packet1.h , packet1.hRef , packet1.hRef_t , packet1.PitchAngle , packet1.PitchAngleRef , packet1.q , packet1.qRef , packet1.uElev , packet1.uThrot , packet1.uThrot2 , packet1.nZ , packet1.AirspeedRef , packet1.SpoilersEngaged , packet1.YawAngle , packet1.YawAngleRef , packet1.RollAngle , packet1.RollAngleRef , packet1.p , packet1.pRef , packet1.r , packet1.rRef , packet1.uAil , packet1.uRud );
+    mavlink_msg_aslctrl_data_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.timestamp , packet1.aslctrl_mode , packet1.h , packet1.hRef , packet1.hRef_t , packet1.PitchAngle , packet1.PitchAngleRef , packet1.q , packet1.qRef , packet1.uElev , packet1.uThrot , packet1.uThrot2 , packet1.nZ , packet1.AirspeedRef , packet1.SpoilerState , packet1.YawAngle , packet1.YawAngleRef , packet1.RollAngle , packet1.RollAngleRef , packet1.p , packet1.pRef , packet1.r , packet1.rRef , packet1.uAil , packet1.uRud );
     mavlink_msg_aslctrl_data_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
@@ -221,7 +221,7 @@ static void mavlink_test_aslctrl_data(uint8_t system_id, uint8_t component_id, m
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
         
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_aslctrl_data_send(MAVLINK_COMM_1 , packet1.timestamp , packet1.aslctrl_mode , packet1.h , packet1.hRef , packet1.hRef_t , packet1.PitchAngle , packet1.PitchAngleRef , packet1.q , packet1.qRef , packet1.uElev , packet1.uThrot , packet1.uThrot2 , packet1.nZ , packet1.AirspeedRef , packet1.SpoilersEngaged , packet1.YawAngle , packet1.YawAngleRef , packet1.RollAngle , packet1.RollAngleRef , packet1.p , packet1.pRef , packet1.r , packet1.rRef , packet1.uAil , packet1.uRud );
+    mavlink_msg_aslctrl_data_send(MAVLINK_COMM_1 , packet1.timestamp , packet1.aslctrl_mode , packet1.h , packet1.hRef , packet1.hRef_t , packet1.PitchAngle , packet1.PitchAngleRef , packet1.q , packet1.qRef , packet1.uElev , packet1.uThrot , packet1.uThrot2 , packet1.nZ , packet1.AirspeedRef , packet1.SpoilerState , packet1.YawAngle , packet1.YawAngleRef , packet1.RollAngle , packet1.RollAngleRef , packet1.p , packet1.pRef , packet1.r , packet1.rRef , packet1.uAil , packet1.uRud );
     mavlink_msg_aslctrl_data_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 }
