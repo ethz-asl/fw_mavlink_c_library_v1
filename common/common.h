@@ -57,7 +57,8 @@ typedef enum MAV_AUTOPILOT
    MAV_AUTOPILOT_ARMAZILA=15, /* Armazila -- http://armazila.com | */
    MAV_AUTOPILOT_AEROB=16, /* Aerob -- http://aerob.ru | */
    MAV_AUTOPILOT_ASLUAV=17, /* ASLUAV autopilot -- http://www.asl.ethz.ch | */
-   MAV_AUTOPILOT_ENUM_END=18, /*  | */
+   MAV_AUTOPILOT_SMARTAP=18, /* SmartAP Autopilot - http://sky-drones.com | */
+   MAV_AUTOPILOT_ENUM_END=19, /*  | */
 } MAV_AUTOPILOT;
 #endif
 
@@ -268,7 +269,8 @@ typedef enum MAV_SYS_STATUS_SENSOR
    MAV_SYS_STATUS_TERRAIN=4194304, /* 0x400000 Terrain subsystem health | */
    MAV_SYS_STATUS_REVERSE_MOTOR=8388608, /* 0x800000 Motors are reversed | */
    MAV_SYS_STATUS_LOGGING=16777216, /* 0x1000000 Logging | */
-   MAV_SYS_STATUS_SENSOR_ENUM_END=16777217, /*  | */
+   MAV_SYS_STATUS_SENSOR_BATTERY=33554432, /* 0x2000000 Battery | */
+   MAV_SYS_STATUS_SENSOR_ENUM_END=33554433, /*  | */
 } MAV_SYS_STATUS_SENSOR;
 #endif
 
@@ -599,8 +601,23 @@ typedef enum MAV_PROTOCOL_CAPABILITY
    MAV_PROTOCOL_CAPABILITY_FLIGHT_TERMINATION=2048, /* Autopilot supports the flight termination command. | */
    MAV_PROTOCOL_CAPABILITY_COMPASS_CALIBRATION=4096, /* Autopilot supports onboard compass calibration. | */
    MAV_PROTOCOL_CAPABILITY_MAVLINK2=8192, /* Autopilot supports mavlink version 2. | */
-   MAV_PROTOCOL_CAPABILITY_ENUM_END=8193, /*  | */
+   MAV_PROTOCOL_CAPABILITY_MISSION_FENCE=16384, /* Autopilot supports mission fence protocol. | */
+   MAV_PROTOCOL_CAPABILITY_MISSION_RALLY=32768, /* Autopilot supports mission rally point protocol. | */
+   MAV_PROTOCOL_CAPABILITY_ENUM_END=32769, /*  | */
 } MAV_PROTOCOL_CAPABILITY;
+#endif
+
+/** @brief Type of mission items being requested/sent in mission protocol. */
+#ifndef HAVE_ENUM_MAV_MISSION_TYPE
+#define HAVE_ENUM_MAV_MISSION_TYPE
+typedef enum MAV_MISSION_TYPE
+{
+   MAV_MISSION_TYPE_MISSION=0, /* Items are mission commands for main mission. | */
+   MAV_MISSION_TYPE_FENCE=1, /* Specifies GeoFence area(s). Items are MAV_CMD_FENCE_ GeoFence items. | */
+   MAV_MISSION_TYPE_RALLY=2, /* Specifies the rally points for the vehicle. Rally points are alternative RTL points. Items are MAV_CMD_RALLY_POINT rally point items. | */
+   MAV_MISSION_TYPE_ALL=255, /* Only used in MISSION_CLEAR_ALL to clear all mission types. | */
+   MAV_MISSION_TYPE_ENUM_END=256, /*  | */
+} MAV_MISSION_TYPE;
 #endif
 
 /** @brief Enumeration of estimator types */
@@ -667,7 +684,9 @@ typedef enum MAV_LANDED_STATE
    MAV_LANDED_STATE_UNDEFINED=0, /* MAV landed state is unknown | */
    MAV_LANDED_STATE_ON_GROUND=1, /* MAV is landed (on ground) | */
    MAV_LANDED_STATE_IN_AIR=2, /* MAV is in air | */
-   MAV_LANDED_STATE_ENUM_END=3, /*  | */
+   MAV_LANDED_STATE_TAKEOFF=3, /* MAV currently taking off | */
+   MAV_LANDED_STATE_LANDING=4, /* MAV currently landing | */
+   MAV_LANDED_STATE_ENUM_END=5, /*  | */
 } MAV_LANDED_STATE;
 #endif
 
