@@ -188,7 +188,7 @@ static void mavlink_test_aslctrl_data(uint8_t system_id, uint8_t component_id, m
         packet1.uAil = packet_in.uAil;
         packet1.uRud = packet_in.uRud;
         packet1.aslctrl_mode = packet_in.aslctrl_mode;
-        packet1.SpoilersEngaged = packet_in.SpoilersEngaged;
+        packet1.SpoilerState = packet_in.SpoilerState;
         
         
 #ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
@@ -203,12 +203,12 @@ static void mavlink_test_aslctrl_data(uint8_t system_id, uint8_t component_id, m
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_aslctrl_data_pack(system_id, component_id, &msg , packet1.timestamp , packet1.aslctrl_mode , packet1.h , packet1.hRef , packet1.hRef_t , packet1.PitchAngle , packet1.PitchAngleRef , packet1.q , packet1.qRef , packet1.uElev , packet1.uThrot , packet1.uThrot2 , packet1.nZ , packet1.AirspeedRef , packet1.SpoilersEngaged , packet1.YawAngle , packet1.YawAngleRef , packet1.RollAngle , packet1.RollAngleRef , packet1.p , packet1.pRef , packet1.r , packet1.rRef , packet1.uAil , packet1.uRud );
+    mavlink_msg_aslctrl_data_pack(system_id, component_id, &msg , packet1.timestamp , packet1.aslctrl_mode , packet1.h , packet1.hRef , packet1.hRef_t , packet1.PitchAngle , packet1.PitchAngleRef , packet1.q , packet1.qRef , packet1.uElev , packet1.uThrot , packet1.uThrot2 , packet1.nZ , packet1.AirspeedRef , packet1.SpoilerState , packet1.YawAngle , packet1.YawAngleRef , packet1.RollAngle , packet1.RollAngleRef , packet1.p , packet1.pRef , packet1.r , packet1.rRef , packet1.uAil , packet1.uRud );
     mavlink_msg_aslctrl_data_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_aslctrl_data_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.timestamp , packet1.aslctrl_mode , packet1.h , packet1.hRef , packet1.hRef_t , packet1.PitchAngle , packet1.PitchAngleRef , packet1.q , packet1.qRef , packet1.uElev , packet1.uThrot , packet1.uThrot2 , packet1.nZ , packet1.AirspeedRef , packet1.SpoilersEngaged , packet1.YawAngle , packet1.YawAngleRef , packet1.RollAngle , packet1.RollAngleRef , packet1.p , packet1.pRef , packet1.r , packet1.rRef , packet1.uAil , packet1.uRud );
+    mavlink_msg_aslctrl_data_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.timestamp , packet1.aslctrl_mode , packet1.h , packet1.hRef , packet1.hRef_t , packet1.PitchAngle , packet1.PitchAngleRef , packet1.q , packet1.qRef , packet1.uElev , packet1.uThrot , packet1.uThrot2 , packet1.nZ , packet1.AirspeedRef , packet1.SpoilerState , packet1.YawAngle , packet1.YawAngleRef , packet1.RollAngle , packet1.RollAngleRef , packet1.p , packet1.pRef , packet1.r , packet1.rRef , packet1.uAil , packet1.uRud );
     mavlink_msg_aslctrl_data_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
@@ -221,7 +221,7 @@ static void mavlink_test_aslctrl_data(uint8_t system_id, uint8_t component_id, m
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
         
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_aslctrl_data_send(MAVLINK_COMM_1 , packet1.timestamp , packet1.aslctrl_mode , packet1.h , packet1.hRef , packet1.hRef_t , packet1.PitchAngle , packet1.PitchAngleRef , packet1.q , packet1.qRef , packet1.uElev , packet1.uThrot , packet1.uThrot2 , packet1.nZ , packet1.AirspeedRef , packet1.SpoilersEngaged , packet1.YawAngle , packet1.YawAngleRef , packet1.RollAngle , packet1.RollAngleRef , packet1.p , packet1.pRef , packet1.r , packet1.rRef , packet1.uAil , packet1.uRud );
+    mavlink_msg_aslctrl_data_send(MAVLINK_COMM_1 , packet1.timestamp , packet1.aslctrl_mode , packet1.h , packet1.hRef , packet1.hRef_t , packet1.PitchAngle , packet1.PitchAngleRef , packet1.q , packet1.qRef , packet1.uElev , packet1.uThrot , packet1.uThrot2 , packet1.nZ , packet1.AirspeedRef , packet1.SpoilerState , packet1.YawAngle , packet1.YawAngleRef , packet1.RollAngle , packet1.RollAngleRef , packet1.p , packet1.pRef , packet1.r , packet1.rRef , packet1.uAil , packet1.uRud );
     mavlink_msg_aslctrl_data_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 }
@@ -793,6 +793,89 @@ static void mavlink_test_sens_power_board(uint8_t system_id, uint8_t component_i
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 }
 
+static void mavlink_test_asl_high_latency(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
+{
+#ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
+    mavlink_status_t *status = mavlink_get_channel_status(MAVLINK_COMM_0);
+        if ((status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) && MAVLINK_MSG_ID_ASL_HIGH_LATENCY >= 256) {
+            return;
+        }
+#endif
+    mavlink_message_t msg;
+        uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
+        uint16_t i;
+    mavlink_asl_high_latency_t packet_in = {
+        963497464,963497672,963497880,17859,17963,18067,187,254,65,132,199,10,77,144,211,22,89,156,223,34,101,168,235,46,113,180,247,58,125,192
+    };
+    mavlink_asl_high_latency_t packet1, packet2;
+        memset(&packet1, 0, sizeof(packet1));
+        packet1.time_boot_ms = packet_in.time_boot_ms;
+        packet1.latitude = packet_in.latitude;
+        packet1.longitude = packet_in.longitude;
+        packet1.altitude_amsl = packet_in.altitude_amsl;
+        packet1.altitude_sp = packet_in.altitude_sp;
+        packet1.wp_num = packet_in.wp_num;
+        packet1.base_mode = packet_in.base_mode;
+        packet1.roll = packet_in.roll;
+        packet1.heading = packet_in.heading;
+        packet1.throttle = packet_in.throttle;
+        packet1.airspeed = packet_in.airspeed;
+        packet1.airspeed_sp = packet_in.airspeed_sp;
+        packet1.windspeed = packet_in.windspeed;
+        packet1.groundspeed = packet_in.groundspeed;
+        packet1.gps_nsat = packet_in.gps_nsat;
+        packet1.gps_fix_type = packet_in.gps_fix_type;
+        packet1.temperature_air = packet_in.temperature_air;
+        packet1.failsafe = packet_in.failsafe;
+        packet1.v_avg_mppt0 = packet_in.v_avg_mppt0;
+        packet1.v_avg_mppt1 = packet_in.v_avg_mppt1;
+        packet1.v_avg_mppt2 = packet_in.v_avg_mppt2;
+        packet1.state_batmon0 = packet_in.state_batmon0;
+        packet1.state_batmon1 = packet_in.state_batmon1;
+        packet1.state_batmon2 = packet_in.state_batmon2;
+        packet1.p_avg_bat = packet_in.p_avg_bat;
+        packet1.v_avg_bat0 = packet_in.v_avg_bat0;
+        packet1.v_avg_bat1 = packet_in.v_avg_bat1;
+        packet1.v_avg_bat2 = packet_in.v_avg_bat2;
+        packet1.status_pwrbrd = packet_in.status_pwrbrd;
+        packet1.p_out = packet_in.p_out;
+        
+        
+#ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
+        if (status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
+           // cope with extensions
+           memset(MAVLINK_MSG_ID_ASL_HIGH_LATENCY_MIN_LEN + (char *)&packet1, 0, sizeof(packet1)-MAVLINK_MSG_ID_ASL_HIGH_LATENCY_MIN_LEN);
+        }
+#endif
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_asl_high_latency_encode(system_id, component_id, &msg, &packet1);
+    mavlink_msg_asl_high_latency_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_asl_high_latency_pack(system_id, component_id, &msg , packet1.time_boot_ms , packet1.base_mode , packet1.roll , packet1.heading , packet1.throttle , packet1.latitude , packet1.longitude , packet1.altitude_amsl , packet1.altitude_sp , packet1.airspeed , packet1.airspeed_sp , packet1.windspeed , packet1.groundspeed , packet1.gps_nsat , packet1.gps_fix_type , packet1.temperature_air , packet1.failsafe , packet1.wp_num , packet1.v_avg_mppt0 , packet1.v_avg_mppt1 , packet1.v_avg_mppt2 , packet1.state_batmon0 , packet1.state_batmon1 , packet1.state_batmon2 , packet1.p_avg_bat , packet1.v_avg_bat0 , packet1.v_avg_bat1 , packet1.v_avg_bat2 , packet1.status_pwrbrd , packet1.p_out );
+    mavlink_msg_asl_high_latency_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_asl_high_latency_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.time_boot_ms , packet1.base_mode , packet1.roll , packet1.heading , packet1.throttle , packet1.latitude , packet1.longitude , packet1.altitude_amsl , packet1.altitude_sp , packet1.airspeed , packet1.airspeed_sp , packet1.windspeed , packet1.groundspeed , packet1.gps_nsat , packet1.gps_fix_type , packet1.temperature_air , packet1.failsafe , packet1.wp_num , packet1.v_avg_mppt0 , packet1.v_avg_mppt1 , packet1.v_avg_mppt2 , packet1.state_batmon0 , packet1.state_batmon1 , packet1.state_batmon2 , packet1.p_avg_bat , packet1.v_avg_bat0 , packet1.v_avg_bat1 , packet1.v_avg_bat2 , packet1.status_pwrbrd , packet1.p_out );
+    mavlink_msg_asl_high_latency_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+        mavlink_msg_to_send_buffer(buffer, &msg);
+        for (i=0; i<mavlink_msg_get_send_buffer_length(&msg); i++) {
+            comm_send_ch(MAVLINK_COMM_0, buffer[i]);
+        }
+    mavlink_msg_asl_high_latency_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+        
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_asl_high_latency_send(MAVLINK_COMM_1 , packet1.time_boot_ms , packet1.base_mode , packet1.roll , packet1.heading , packet1.throttle , packet1.latitude , packet1.longitude , packet1.altitude_amsl , packet1.altitude_sp , packet1.airspeed , packet1.airspeed_sp , packet1.windspeed , packet1.groundspeed , packet1.gps_nsat , packet1.gps_fix_type , packet1.temperature_air , packet1.failsafe , packet1.wp_num , packet1.v_avg_mppt0 , packet1.v_avg_mppt1 , packet1.v_avg_mppt2 , packet1.state_batmon0 , packet1.state_batmon1 , packet1.state_batmon2 , packet1.p_avg_bat , packet1.v_avg_bat0 , packet1.v_avg_bat1 , packet1.v_avg_bat2 , packet1.status_pwrbrd , packet1.p_out );
+    mavlink_msg_asl_high_latency_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+}
+
 static void mavlink_test_ASLUAV(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
 {
     mavlink_test_sens_power(system_id, component_id, last_msg);
@@ -807,6 +890,7 @@ static void mavlink_test_ASLUAV(uint8_t system_id, uint8_t component_id, mavlink
     mavlink_test_fw_soaring_data(system_id, component_id, last_msg);
     mavlink_test_sensorpod_status(system_id, component_id, last_msg);
     mavlink_test_sens_power_board(system_id, component_id, last_msg);
+    mavlink_test_asl_high_latency(system_id, component_id, last_msg);
 }
 
 #ifdef __cplusplus

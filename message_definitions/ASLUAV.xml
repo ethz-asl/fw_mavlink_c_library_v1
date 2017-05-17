@@ -26,6 +26,16 @@
         <param index="6">Empty</param>
         <param index="7">Empty</param>
       </entry>
+      <entry name="MAV_CMD_SATCOM_CONTROL" value="40003">
+	<description>Control SATCOM</description>
+        <param index="1">0: disable, 1: enable</param>
+        <param index="2">User defined</param>
+        <param index="3">User defined</param>
+        <param index="4">User defined</param>
+        <param index="5">User defined</param>
+        <param index="6">User defined</param>
+        <param index="7">User defined</param>
+      </entry>
     </enum>
   </enums>
   <messages>
@@ -68,7 +78,7 @@
       <field type="float" name="uThrot2"> </field>
       <field type="float" name="nZ"> </field>
       <field type="float" name="AirspeedRef">Airspeed reference [m/s]</field>
-      <field type="uint8_t" name="SpoilersEngaged"> </field>
+      <field type="int8_t" name="SpoilerState"> SpoilerState (0=off, positive up, negative down)</field>
       <field type="float" name="YawAngle">Yaw angle [deg]</field>
       <field type="float" name="YawAngleRef">Yaw angle reference[deg]</field>
       <field type="float" name="RollAngle">Roll angle [deg]</field>
@@ -197,6 +207,39 @@
       <field type="float" name="pwr_brd_servo_3_amp">Power board servo1 current sensor</field>
       <field type="float" name="pwr_brd_servo_4_amp">Power board servo1 current sensor</field>
       <field type="float" name="pwr_brd_aux_amp">Power board aux current sensor</field>
+    </message>
+    <message id="213" name="ASL_HIGH_LATENCY">
+      <description>Message to report ASL UAV status over high latency link, i.e. IRIDIUM Satcom link.</description>
+      <field name="time_boot_ms" type="uint32_t">Timestamp (since system boot) [ms]</field>
+      <field name="base_mode" type="uint8_t">System mode bitfield, see MAV_MODE_FLAG ENUM in mavlink/include/mavlink_types.h</field>
+      <field name="roll" type="int8_t">Roll angle [deg]</field>
+      <field name="heading" type="uint8_t">Heading [deg / 2]</field>
+      <field name="throttle" type="uint8_t">Current throttle [1/100]</field>
+      <field name="latitude" type="int32_t">Latitude [deg * 1E7]</field>
+      <field name="longitude" type="int32_t">Longitude [deg * 1E7]</field>
+      <field name="altitude_amsl" type="int16_t">Altitude above mean sea level [m]</field>
+      <field name="altitude_sp" type="int16_t">Altitude setpoint above mean sea level [m]</field>
+      <field name="airspeed" type="uint8_t">Airspeed [m/s * 10]</field>
+      <field name="airspeed_sp" type="uint8_t">Airspeed setpoint [m/s * 10]</field>
+      <field name="windspeed" type="uint8_t">Windspeed [m/s * 10]</field>
+      <field name="groundspeed" type="uint8_t">Groundspeed [m/s * 10]</field>
+      <field name="gps_nsat" type="uint8_t">Number of satellites visible. If unknown, set to 255</field>
+      <field name="gps_fix_type" type="uint8_t">See the GPS_FIX_TYPE enum.</field>
+      <field name="temperature_air" type="int8_t">Air temperature (degrees C) from airspeed sensor</field>
+      <field name="failsafe" type="uint8_t">failsafe (each bit represents a failsafe where 0=ok, 1=failsafe active (bit0:RC, bit1:batt, bit2:GPS, bit3:GCS, bit4:fence))</field>
+      <field name="wp_num" type="uint16_t">current waypoint number</field>
+      <field name="v_avg_mppt0" type="uint8_t">Average voltage of MPPT 0 (solar panel side) since last message [V * 10]</field>
+      <field name="v_avg_mppt1" type="uint8_t">Average voltage of MPPT 1 (solar panel side) since last msg [V * 10]</field>
+      <field name="v_avg_mppt2" type="uint8_t">Average voltage of MPPT 2 (solar panel side) since last msg [V * 10]</field>
+      <field name="state_batmon0" type="uint8_t">Status bits of batmon 0</field>
+      <field name="state_batmon1" type="uint8_t">Status bits of batmon 1</field>
+      <field name="state_batmon2" type="uint8_t">Status bits of batmon 2</field>
+      <field name="p_avg_bat" type="int8_t">Average power of all batteries since last message ( &lt;0: CHG, &gt;0: DCHG) [W / 4]</field>
+      <field name="v_avg_bat0" type="uint8_t">Averag voltage of battery 0 since last msg [V * 10]</field>
+      <field name="v_avg_bat1" type="uint8_t">Averag voltage of battery 1 since last msg [V * 10]</field>
+      <field name="v_avg_bat2" type="uint8_t">Averag voltage of battery 2 since last msg [V * 10]</field>
+      <field name="status_pwrbrd" type="uint8_t">Power board status register, as in SENS_POWER_BOARD</field>
+      <field name="p_out" type="uint8_t">Average power consumed by all components (Motors, Avionics, OBC, ...) since last msg [W / 2]</field>
     </message>
   </messages>
 </mavlink>
