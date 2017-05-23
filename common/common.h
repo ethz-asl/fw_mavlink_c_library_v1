@@ -204,6 +204,7 @@ typedef enum MAV_STATE
 typedef enum MAV_COMPONENT
 {
    MAV_COMP_ID_ALL=0, /*  | */
+   MAV_COMP_ID_AUTOPILOT1=1, /*  | */
    MAV_COMP_ID_CAMERA=100, /*  | */
    MAV_COMP_ID_SERVO1=140, /*  | */
    MAV_COMP_ID_SERVO2=141, /*  | */
@@ -232,6 +233,7 @@ typedef enum MAV_COMPONENT
    MAV_COMP_ID_IMU_2=201, /*  | */
    MAV_COMP_ID_IMU_3=202, /*  | */
    MAV_COMP_ID_GPS=220, /*  | */
+   MAV_COMP_ID_GPS2=221, /*  | */
    MAV_COMP_ID_UDP_BRIDGE=240, /*  | */
    MAV_COMP_ID_UART_BRIDGE=241, /*  | */
    MAV_COMP_ID_SYSTEM_CONTROL=250, /*  | */
@@ -434,7 +436,8 @@ typedef enum MAV_RESULT
    MAV_RESULT_DENIED=2, /* Command PERMANENTLY DENIED | */
    MAV_RESULT_UNSUPPORTED=3, /* Command UNKNOWN/UNSUPPORTED | */
    MAV_RESULT_FAILED=4, /* Command executed, but failed | */
-   MAV_RESULT_ENUM_END=5, /*  | */
+   MAV_RESULT_IN_PROGRESS=5, /* WIP: Command being executed | */
+   MAV_RESULT_ENUM_END=6, /*  | */
 } MAV_RESULT;
 #endif
 
@@ -603,7 +606,8 @@ typedef enum MAV_PROTOCOL_CAPABILITY
    MAV_PROTOCOL_CAPABILITY_MAVLINK2=8192, /* Autopilot supports mavlink version 2. | */
    MAV_PROTOCOL_CAPABILITY_MISSION_FENCE=16384, /* Autopilot supports mission fence protocol. | */
    MAV_PROTOCOL_CAPABILITY_MISSION_RALLY=32768, /* Autopilot supports mission rally point protocol. | */
-   MAV_PROTOCOL_CAPABILITY_ENUM_END=32769, /*  | */
+   MAV_PROTOCOL_CAPABILITY_FLIGHT_INFORMATION=65536, /* Autopilot supports the flight information protocol. | */
+   MAV_PROTOCOL_CAPABILITY_ENUM_END=65537, /*  | */
 } MAV_PROTOCOL_CAPABILITY;
 #endif
 
