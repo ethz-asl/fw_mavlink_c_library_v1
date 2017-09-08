@@ -243,5 +243,16 @@
       <field name="status_pwrbrd" type="uint8_t">Power board status register, as in SENS_POWER_BOARD</field>
       <field name="p_out" type="uint8_t">Average power consumed by all components (Motors, Avionics, OBC, ...) since last msg [W / 2]</field>
     </message>
+    <message id="214" name="NMPC_PARAMS">
+      <description>Parameters for Nonlinear Model Predictive Controller</description>
+      <field type="float" name="R_acpt">Track switch acceptance radius [m]</field>
+      <field type="float" name="ceta_acpt">Cosine of track switch acceptance angle [~]</field>
+      <field type="float" name="alpha_p_co">Angle of attack upper cutoff [rad]</field>
+      <field type="float" name="alpha_m_co">Angle of attack lower cutoff [rad]</field>
+      <field type="float" name="alpha_delta_co">Angle of attack cutoff transition length [rad]</field>
+      <field type="float" name="T_b_lat">Lateral-directional track error boundary constant [s]</field>
+      <field type="float" name="T_b_lon">Longitudinal track error boundary constant [s]</field>
+      <field type="float[11]" name="Qdiag">Objective weights</field>
+   </message> 
   </messages>
 </mavlink>

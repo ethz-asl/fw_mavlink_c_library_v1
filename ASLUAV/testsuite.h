@@ -878,6 +878,67 @@ static void mavlink_test_asl_high_latency(uint8_t system_id, uint8_t component_i
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 }
 
+static void mavlink_test_nmpc_params(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
+{
+#ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
+    mavlink_status_t *status = mavlink_get_channel_status(MAVLINK_COMM_0);
+        if ((status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) && MAVLINK_MSG_ID_NMPC_PARAMS >= 256) {
+            return;
+        }
+#endif
+    mavlink_message_t msg;
+        uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
+        uint16_t i;
+    mavlink_nmpc_params_t packet_in = {
+        17.0,45.0,73.0,101.0,129.0,157.0,185.0,{ 213.0, 214.0, 215.0, 216.0, 217.0, 218.0, 219.0, 220.0, 221.0, 222.0, 223.0 }
+    };
+    mavlink_nmpc_params_t packet1, packet2;
+        memset(&packet1, 0, sizeof(packet1));
+        packet1.R_acpt = packet_in.R_acpt;
+        packet1.ceta_acpt = packet_in.ceta_acpt;
+        packet1.alpha_p_co = packet_in.alpha_p_co;
+        packet1.alpha_m_co = packet_in.alpha_m_co;
+        packet1.alpha_delta_co = packet_in.alpha_delta_co;
+        packet1.T_b_lat = packet_in.T_b_lat;
+        packet1.T_b_lon = packet_in.T_b_lon;
+        
+        mav_array_memcpy(packet1.Qdiag, packet_in.Qdiag, sizeof(float)*11);
+        
+#ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
+        if (status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
+           // cope with extensions
+           memset(MAVLINK_MSG_ID_NMPC_PARAMS_MIN_LEN + (char *)&packet1, 0, sizeof(packet1)-MAVLINK_MSG_ID_NMPC_PARAMS_MIN_LEN);
+        }
+#endif
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_nmpc_params_encode(system_id, component_id, &msg, &packet1);
+    mavlink_msg_nmpc_params_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_nmpc_params_pack(system_id, component_id, &msg , packet1.R_acpt , packet1.ceta_acpt , packet1.alpha_p_co , packet1.alpha_m_co , packet1.alpha_delta_co , packet1.T_b_lat , packet1.T_b_lon , packet1.Qdiag );
+    mavlink_msg_nmpc_params_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_nmpc_params_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.R_acpt , packet1.ceta_acpt , packet1.alpha_p_co , packet1.alpha_m_co , packet1.alpha_delta_co , packet1.T_b_lat , packet1.T_b_lon , packet1.Qdiag );
+    mavlink_msg_nmpc_params_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+        mavlink_msg_to_send_buffer(buffer, &msg);
+        for (i=0; i<mavlink_msg_get_send_buffer_length(&msg); i++) {
+            comm_send_ch(MAVLINK_COMM_0, buffer[i]);
+        }
+    mavlink_msg_nmpc_params_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+        
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_nmpc_params_send(MAVLINK_COMM_1 , packet1.R_acpt , packet1.ceta_acpt , packet1.alpha_p_co , packet1.alpha_m_co , packet1.alpha_delta_co , packet1.T_b_lat , packet1.T_b_lon , packet1.Qdiag );
+    mavlink_msg_nmpc_params_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+}
+
 static void mavlink_test_ASLUAV(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
 {
     mavlink_test_sens_power(system_id, component_id, last_msg);
@@ -893,6 +954,7 @@ static void mavlink_test_ASLUAV(uint8_t system_id, uint8_t component_id, mavlink
     mavlink_test_sensorpod_status(system_id, component_id, last_msg);
     mavlink_test_sens_power_board(system_id, component_id, last_msg);
     mavlink_test_asl_high_latency(system_id, component_id, last_msg);
+    mavlink_test_nmpc_params(system_id, component_id, last_msg);
 }
 
 #ifdef __cplusplus
