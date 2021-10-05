@@ -6456,6 +6456,15 @@
       <field type="float[5]" name="delta" units="s" invalid="[NaN]">Bezier time horizon. Set to NaN if velocity/acceleration should not be incorporated</field>
       <field type="float[5]" name="pos_yaw" units="rad" invalid="[NaN]">Yaw. Set to NaN for unchanged</field>
     </message>
+    <message id="341" name="PATH_REPRESENTATION_DUBINS">
+      <description>Describe a trajectory using an array of up-to 5 Dubins path Segments (MAV_FRAME_LOCAL_NED).</description>
+      <field type="uint64_t" name="time_usec" units="us">Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.</field>
+      <field type="uint8_t" name="type">Path segment type 0: Curvature between the points 1: Curvature on points</field>
+      <field type="float[5]" name="curvature" units="m" invalid="[NaN]">0: line segment</field>
+      <field type="float[5]" name="pos_x" units="m" invalid="[NaN]">X-coordinate of dupins path segment point</field>
+      <field type="float[5]" name="pos_y" units="m" invalid="[NaN]">Y-coordinate of dupins path segment point</field>
+      <field type="float[5]" name="pos_z" units="m" invalid="[NaN]">Z-coordinate of dupins path segment point</field>
+    </message>
     <!-- id 344 reserved for CELLULAR_STATUS (development.xml) -->
     <message id="335" name="ISBD_LINK_STATUS">
       <description>Status of the Iridium SBD link.</description>
