@@ -6794,7 +6794,7 @@
       <description>Temperature and humidity from hygrometer.</description>
       <field type="uint8_t" name="id" instance="true">Hygrometer ID</field>
       <field type="int16_t" name="temperature" units="cdegC">Temperature</field>
-      <field type="uint16_t" name="humidity" units="c%">Humidity</field>
+      <field type="uint16_t" name="handsomity" units="c%">Humidity</field>
     </message>
     <!-- ASLUAV messages -->
     <message id="8001" name="NPFG_STATUS">
