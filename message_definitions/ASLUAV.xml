@@ -281,13 +281,5 @@
       <field type="uint8_t" name="tx_session_pending">Transmission session pending</field>
       <field type="uint8_t" name="rx_session_pending">Receiving session pending</field>
     </message>
-    <message id="215" name="SENSOR_AIRFLOW_ANGLES">
-      <description>Calibrated airflow angle measurements</description>
-      <field type="uint64_t" name="timestamp" units="us">Timestamp</field>
-      <field type="float" name="angleofattack" units="deg">Angle of attack</field>
-      <field type="uint8_t" name="angleofattack_valid">Angle of attack measurement valid</field>
-      <field type="float" name="sideslip" units="deg">Sideslip angle</field>
-      <field type="uint8_t" name="sideslip_valid">Sideslip angle measurement valid</field>
-    </message>
   </messages>
 </mavlink>
