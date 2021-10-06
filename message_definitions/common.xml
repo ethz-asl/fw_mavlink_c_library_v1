@@ -4277,7 +4277,7 @@
       </entry>
       <entry value="1" name="NAV_VTOL_LAND_OPTIONS_FW_DESCENT">
         <description>Descend in fixed wing mode, transitioning to multicopter mode for vertical landing when close to the ground.
-          The fixed wing descent pattern is at the discretion of the vehicle (e.g. transition altitude, loiter direction, radius, and speed, etc.).        
+          The fixed wing descent pattern is at the discretion of the vehicle (e.g. transition altitude, loiter direction, radius, and speed, etc.).
         </description>
       </entry>
       <entry value="2" name="NAV_VTOL_LAND_OPTIONS_HOVER_DESCENT">
@@ -6499,6 +6499,15 @@
       <field type="float[5]" name="delta" units="s" invalid="[NaN]">Bezier time horizon. Set to NaN if velocity/acceleration should not be incorporated</field>
       <field type="float[5]" name="pos_yaw" units="rad" invalid="[NaN]">Yaw. Set to NaN for unchanged</field>
     </message>
+    <message id="341" name="PATH_REPRESENTATION_DUBINS">
+      <description>Describe a trajectory using an array of up-to 5 Dubins path Segments (MAV_FRAME_LOCAL_NED).</description>
+      <field type="uint64_t" name="time_usec" units="us">Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.</field>
+      <field type="uint8_t" name="type">Path segment type 0: Curvature between the points 1: Curvature on points</field>
+      <field type="float[5]" name="curvature" units="m" invalid="[NaN]">0: line segment</field>
+      <field type="float[5]" name="pos_x" units="m" invalid="[NaN]">X-coordinate of dupins path segment point</field>
+      <field type="float[5]" name="pos_y" units="m" invalid="[NaN]">Y-coordinate of dupins path segment point</field>
+      <field type="float[5]" name="pos_z" units="m" invalid="[NaN]">Z-coordinate of dupins path segment point</field>
+    </message>
     <!-- cellular status information -->
     <message id="334" name="CELLULAR_STATUS">
       <description>Report current used cellular network status</description>
@@ -6862,6 +6871,33 @@
       <field type="uint8_t" name="id" instance="true">Hygrometer ID</field>
       <field type="int16_t" name="temperature" units="cdegC">Temperature</field>
       <field type="uint16_t" name="humidity" units="c%">Humidity</field>
+    </message>
+    <!-- ASLUAV messages -->
+    <message id="8000" name="SENSOR_AIRFLOW_ANGLES">
+      <description>Calibrated airflow angle measurements</description>
+      <field type="uint64_t" name="timestamp" units="us">Timestamp</field>
+      <field type="float" name="angleofattack" units="deg">Angle of attack</field>
+      <field type="uint8_t" name="angleofattack_valid">Angle of attack measurement valid</field>
+      <field type="float" name="sideslip" units="deg">Sideslip angle</field>
+      <field type="uint8_t" name="sideslip_valid">Sideslip angle measurement valid</field>
+    </message>
+    <message id="8001" name="NPFG_STATUS">
+      <description>Nonlinear Path Following Guidance Status</description>
+      <field type="uint64_t" name="timestamp" units="us">Timestamp</field>
+      <field type="uint8_t" name="wind_est_valid">Wind estimate is valid and being used</field>
+      <field type="float" name="lat_accel" units="m/s/s">Resultant lateral acceleration reference</field>
+      <field type="float" name="lat_accel_ff" units="m/s/s">Feed-forward lateral acceleration for maintaining path curvature</field>
+      <field type="float" name="bearing_feas">Bearing feasibility</field>
+      <field type="float" name="bearing_feas_on_track">On-track bearing feasibility</field>
+      <field type="float" name="signed_track_error" units="m">Signed track error</field>
+      <field type="float" name="track_error_bound" units="m">Track error bound</field>
+      <field type="float" name="airspeed_ref" units="m/s">Airspeed reference</field>
+      <field type="float" name="bearing" units="deg">Bearing angle</field>
+      <field type="float" name="heading_ref" units="deg">Heading angle reference</field>
+      <field type="float" name="min_ground_speed_ref" units="m/s">Minimum forward ground speed reference</field>
+      <field type="float" name="adapted_period" units="s">Adapted period (if auto-tuning enabled)</field>
+      <field type="float" name="p_gain" units="rad/s">Controller proportional gain</field>
+      <field type="float" name="time_const" units="s">Controller time constant</field>
     </message>
   </messages>
 </mavlink>
